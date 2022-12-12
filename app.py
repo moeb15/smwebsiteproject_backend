@@ -11,7 +11,7 @@ from models.posts import Posts
 from models.friends import Friends
 from resources.users import UserResource, MeResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, blocklist
-from resources.posts import PostResorce, PostListResource, PostIdResource, TestingResource
+from resources.posts import PostResorce, PostListResource, PostIdResource
 from resources.friends import AddFriendsResource, ConfirmRequestResource
 
 from schema.posts import PostsSchema
@@ -43,8 +43,6 @@ def regisiter_resources(app):
     docs = FlaskApiSpec(app)
     api = Api(app)
 
-    #testing frontend
-    api.add_resource(TestingResource,'/testing')
     #post resources
     api.add_resource(PostResorce,'/posts')
     api.add_resource(PostListResource, '/posts/myposts')

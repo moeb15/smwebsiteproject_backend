@@ -18,7 +18,12 @@ class Friends(db.Model):
         if cls.query.filter_by(user_id=user_id, recipient=recipient).first() == None:
             return cls.query.filter_by(user_id=recipient, recipient=user_id).first()
         return cls.query.filter_by(user_id=user_id, recipient=recipient).first()
-    
+
+    @classmethod
+    def get_friend_request_oneway(cls, user_id, recipient):
+        return cls.query.filter_by(user_id=user_id, recipient=recipient).first()
+
+        
     def delete(self):
         db.session.delete(self)
         db.session.commit()

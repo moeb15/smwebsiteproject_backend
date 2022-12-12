@@ -43,7 +43,7 @@ class ConfirmRequestResource(Resource):
         if sender is None:
             return {'message': 'User not found'}, HTTPStatus.BAD_REQUEST
 
-        friend_request = Friends.get_friend_request(
+        friend_request = Friends.get_friend_request_oneway(
             user_id=sender.id, recipient=user.id)
 
         if friend_request is None:

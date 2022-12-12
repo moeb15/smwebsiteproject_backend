@@ -3,6 +3,7 @@ from http import HTTPStatus
 from flask_restful import Resource
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from marshmallow import ValidationError
+from flask_apispec import marshal_with
 
 from models.posts import Posts
 from models.users import User
@@ -16,6 +17,7 @@ private_post_list_schema = PostsSchema(many=True)
 
 
 class PostResorce(Resource):
+    @marshal_with(private_post_schema)
     @jwt_required(optional=False)
     def post(self):
         json_data = request.get_json()
@@ -46,6 +48,7 @@ class PostIdResource(Resource):
 
         return {}, HTTPStatus.NO_CONTENT
     
+    @marshal_with(private_post_schema)
     @jwt_required(optional=False)
     def get(self, id):
         post = Posts.get_by_id(id)
@@ -66,7 +69,3 @@ class PostListResource(Resource):
         posts = Posts.get_all_posts(get_jwt_identity())
 
         return private_post_list_schema.dump(posts),  HTTPStatus.OK
-
-class TestingResource(Resource):
-    def get(self):
-        return {'message':'Hello World!'}

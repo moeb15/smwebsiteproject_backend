@@ -6,7 +6,7 @@ class Config:
     DEBUG = True
 
     FLASK_APP = os.environ.get('FLASK_APP')
-    FLASK_DEBUG = os.environ.get('FLASK_ENV')
+    FLASK_DEBUG = os.environ.get('FLASK_DEBUG')
 
 
     USER = os.environ.get('PG_USER')
