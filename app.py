@@ -9,7 +9,7 @@ from config import Config
 from models.users import User
 from models.posts import Posts
 from models.friends import Friends
-from resources.users import UserResource, MeResource
+from resources.users import UserResource, MeResource, FindUserResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, blocklist
 from resources.posts import PostResorce, PostListResource, PostIdResource
 from resources.friends import AddFriendsResource, ConfirmRequestResource
@@ -47,9 +47,10 @@ def regisiter_resources(app):
     api.add_resource(PostResorce,'/posts')
     api.add_resource(PostListResource, '/posts/myposts')
     api.add_resource(PostIdResource, '/posts/<int:id>')
-    #user resources
+    #user/friends resources
     api.add_resource(UserResource, '/users')
     api.add_resource(MeResource, '/me')
+    api.add_resource(FindUserResource, '/users/search')
     api.add_resource(AddFriendsResource, '/users/<string:username>')
     api.add_resource(ConfirmRequestResource, '/users/confirm/<string:username>')
     #jwt resources

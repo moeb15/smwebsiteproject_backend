@@ -1,4 +1,5 @@
 from extensions import db
+from sqlalchemy import or_
 
 
 class User(db.Model):
@@ -22,6 +23,14 @@ class User(db.Model):
     @classmethod
     def get_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def get_all_by_username(cls, username):
+        return cls.query.filter(cls.username.ilike(username)).all()
+    
+    @classmethod
+    def get_all_by_email(cls, email):
+        return cls.query.filter(cls.email.ilike(email)).all()
 
     @classmethod
     def get_by_id(cls,id):
