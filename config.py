@@ -15,7 +15,7 @@ class Config:
     SRVR = os.environ.get('PG_SERVER')
 
     SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg2://{USER}:{PWD}@{SRVR}/{DBNAME}'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = os.environ.get('SQLALCHEMY_TRACK_MODIFICATIONS')
 
     SECRET_KEY = os.environ.get('SECRET_KEY')
     JWT_ERROR_MESSAGE_KEY = os.environ.get('JWT_ERROR_MESSAGE_KEY')
