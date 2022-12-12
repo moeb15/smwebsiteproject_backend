@@ -3,6 +3,7 @@ from marshmallow import Schema, fields
 from urllib.parse import urlencode
 
 from schema.users import UserSchema
+from schema.posts import PostsSchema
 
 
 class PaginationSchema(Schema):
@@ -42,3 +43,6 @@ class PaginationSchema(Schema):
 
 class UsersPaginationSchema(PaginationSchema):
     data = fields.Nested(UserSchema, attribute='items', many=True)
+
+class PostsPaginationSchema(PaginationSchema):
+    data = fields.Nested(PostsSchema, attribute='items', many=True)
