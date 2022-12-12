@@ -7,11 +7,12 @@ from marshmallow import ValidationError, fields
 
 from models.users import User
 from schema.users import UserSchema
+from schema.pagination import PaginationSchema, UsersPaginationSchema
 from utils import hash_password
 
 user_schema = UserSchema()
 user_public_schema = UserSchema(only=('username','email','created_at',))
-user_public_list_schema = UserSchema(only=('username','email','created_at',), many=True)
+user_public_pagination_schema = UsersPaginationSchema()
 
 class UserResource(Resource):
     def post(self):
@@ -53,16 +54,12 @@ class MeResource(Resource):
 class FindUserResource(Resource):
     @jwt_required(optional=False)
     @use_kwargs({'username':fields.Str(),
-                'email':fields.Email(missing='')},location='query')
-    def get(self,username,email):
+                'page': fields.Int(missing=1),
+                'per_page':fields.Int(missing=20)},location='query')
+    def get(self,username,page,per_page):
 
-        users = User.get_all_by_username(username)
+        users = User.get_all_by_username(username,page,per_page)
 
-        if users == None and email != None:
-            users = User.get_all_by_email(email)
-            if users == None:
-                return {'message':'User not found'}, HTTPStatus.NOT_FOUND
-
-        return user_public_list_schema.dump(users), HTTPStatus.OK
+        return user_public_pagination_schema.dump(users), HTTPStatus.OK
 
         

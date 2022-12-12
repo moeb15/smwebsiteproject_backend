@@ -1,5 +1,5 @@
 from extensions import db
-from sqlalchemy import or_
+from sqlalchemy import or_, desc
 
 
 class User(db.Model):
@@ -17,21 +17,20 @@ class User(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_by_email(cls,email):
+    def get_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
-    
+
     @classmethod
     def get_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
 
     @classmethod
-    def get_all_by_username(cls, username):
-        return cls.query.filter(cls.username.ilike(username)).all()
-    
-    @classmethod
-    def get_all_by_email(cls, email):
-        return cls.query.filter(cls.email.ilike(email)).all()
+    def get_all_by_username(cls, username, page, per_page):
+
+        keyword = f'%{username}%'
+
+        return cls.query.filter(cls.username.ilike(keyword)).order_by(desc(cls.id)).paginate(page=page, per_page=per_page)
 
     @classmethod
-    def get_by_id(cls,id):
+    def get_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
